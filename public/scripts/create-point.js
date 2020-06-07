@@ -14,7 +14,7 @@ populatesUFs();
 
 function getCities(event){
     const citySelect = document.querySelector('select[name=city]')
-    const stateInput = document.querySelector('input[name=states]')
+    const stateInput = document.querySelector('input[name=state]')
 
     const ufValue = event.target.value
     
@@ -28,7 +28,7 @@ function getCities(event){
         .then(res => res.json() )
         .then(cities => {
             for(city of cities){
-                citySelect.innerHTML += `<option value=${city.nome}>${city.nome}</opition>`
+                citySelect.innerHTML += `<option value='${city.nome}'>${city.nome}</opition>`
             }
             citySelect.disabled = false
         });
@@ -49,21 +49,30 @@ let selectedItems = []
 
 function handleSelectedItem(event) {
     const itemLi = event.target
+
+    //adicionar ou reover a casse
     itemLi.classList.toggle("selected");
     
     const itemId = itemLi.dataset.id;
+
+
+    //verifica se existem itens selecionados, se sim pegar os items selecionados
     const alreadySelected = selectedItems.findIndex(item => item == itemId);
 
+    //se já estiver selecionado
     if(alreadySelected >= 0){
+        //tirar seleção
         const filteredItems = selectedItems.filter(item => {
             const itemIsDiferent = item != itemId;
             return itemIsDiferent;
         })
         selectedItems = filteredItems
     }else{
+        //se não estiver selecionado, colocar à seleção
         selectedItems.push(itemId)
     }   
 
+    //atualizar o camo esxondido com itens selecionados
     collectedItems.value = selectedItems;
 }
 
